@@ -1,2 +1,9 @@
 .worktrees
 .worktrees/
+__pycache__/
+.pytest_cache/
+.venv/
+data/*.sqlite3
+data/local_settings.json
+tmp/
+*.log
