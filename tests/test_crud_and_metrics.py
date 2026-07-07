@@ -56,3 +56,52 @@ def test_audit_log_records_create_and_update(client):
     logs = client.get("/api/audit-logs")
     assert logs.status_code == 200
     assert any(log["entity_type"] == "channels" and log["action"] == "create" for log in logs.json())
+
+
+def test_dashboard_summary_reflects_contract_payment_and_pipeline(client):
+    client.post(
+        "/api/contracts",
+        json={
+            "application_date": "2026-07-01",
+            "contract_return_date": "2026-07-06",
+            "contract_number": "DG-BJ-2026-001",
+            "contract_name": "示例环评项目",
+            "customer_name": "北京示例科技有限公司",
+            "customer_category": "工业企业",
+            "industry_category": "生态环境",
+            "region": "北京",
+            "business_segment": "环评/验收/排污许可",
+            "business_detail": "环评",
+            "business_owner": "李绪志",
+            "collaboration_unit": "",
+            "contract_amount": 500000,
+            "tax_rate": 0.06,
+            "direct_cost": 180000,
+            "estimated_gross_profit": 290000,
+            "service_period": "2026-07 至 2026-12",
+            "contract_due_date": "2026-12-31",
+            "payment_method": "分期付款",
+            "is_key_project": True,
+            "is_group_collaboration": False,
+            "remark": "",
+        },
+    )
+    client.post(
+        "/api/payments",
+        json={
+            "arrival_date": "2026-07-07",
+            "contract_number": "DG-BJ-2026-001",
+            "customer_name": "北京示例科技有限公司",
+            "project_name": "示例环评项目",
+            "payment_amount": 120000,
+            "payment_method": "银行转账",
+            "remark": "",
+        },
+    )
+
+    summary = client.get("/api/dashboard/summary")
+
+    assert summary.status_code == 200
+    payload = summary.json()
+    assert payload["total_contract_amount"] >= 500000
+    assert payload["total_payment_amount"] >= 120000
