@@ -6,6 +6,7 @@ from app.config import Settings, load_settings
 from app.crud import build_crud_router
 from app.database import init_db, make_engine, make_session_factory
 from app.routers.dashboard import build_dashboard_router
+from app.routers.reports import build_reports_router
 from app.routers.workflows import build_workflow_router
 from app.seed import seed_defaults
 
@@ -29,6 +30,7 @@ def create_app(database_url: str | None = None) -> FastAPI:
 
     app.include_router(build_dashboard_router(session_factory))
     app.include_router(build_workflow_router(session_factory))
+    app.include_router(build_reports_router(session_factory))
     app.include_router(build_crud_router(session_factory))
 
     return app
