@@ -35,6 +35,8 @@ def make_session_factory(engine: Engine) -> sessionmaker[Session]:
 
 
 def init_db(engine: Engine) -> None:
+    import app.models  # noqa: F401
+
     Base.metadata.create_all(bind=engine)
 
 
