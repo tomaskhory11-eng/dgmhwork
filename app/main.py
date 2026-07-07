@@ -1,6 +1,10 @@
 from __future__ import annotations
 
+from pathlib import Path
+
 from fastapi import FastAPI
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 
 from app.config import Settings, load_settings
 from app.crud import build_crud_router
@@ -24,9 +28,17 @@ def create_app(database_url: str | None = None) -> FastAPI:
     app.state.engine = engine
     app.state.session_factory = session_factory
 
+    static_dir = Path(__file__).resolve().parents[1] / "static"
+    if static_dir.exists():
+        app.mount("/static", StaticFiles(directory=static_dir), name="static")
+
     @app.get("/api/health")
     def health() -> dict[str, str]:
         return {"status": "ok", "service": settings.project_name}
+
+    @app.get("/")
+    def index() -> FileResponse:
+        return FileResponse(static_dir / "index.html")
 
     app.include_router(build_dashboard_router(session_factory))
     app.include_router(build_workflow_router(session_factory))

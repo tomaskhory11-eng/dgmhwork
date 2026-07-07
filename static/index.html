@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>北京公司经营管理 AI Agent</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <span class="brand-mark">德</span>
+        <div>
+          <strong>北京公司经营管理 AI Agent</strong>
+          <small>经营过程管理系统</small>
+        </div>
+      </div>
+      <nav class="nav" aria-label="主导航">
+        <button class="nav-item active" data-section="dashboard">首页驾驶舱</button>
+        <button class="nav-item" data-section="customers">渠道客户</button>
+        <button class="nav-item" data-section="opportunities">储备项目</button>
+        <button class="nav-item" data-section="contracts">合同回款</button>
+        <button class="nav-item" data-section="delivery">项目实施</button>
+        <button class="nav-item" data-section="reports">计划汇报</button>
+        <button class="nav-item" data-section="settings">系统设置</button>
+      </nav>
+      <div class="sidebar-note">
+        <strong>核心闭环</strong>
+        <span>拜访 -> 储备项目 -> 合同 -> 应收/实施 -> 汇报</span>
+      </div>
+    </aside>
+
+    <main class="workspace">
+      <header class="topbar">
+        <div>
+          <h1 id="view-title">首页驾驶舱</h1>
+          <p id="view-subtitle">项目在哪里、合同在哪里、钱在哪里、交付在哪里。</p>
+        </div>
+        <div class="topbar-actions">
+          <select id="owner-filter" aria-label="负责人筛选">
+            <option value="公司">公司视图</option>
+            <option value="李绪志">李绪志</option>
+            <option value="张旭">张旭</option>
+            <option value="袁浩洋">袁浩洋</option>
+          </select>
+          <button id="new-record-btn" class="primary-btn" type="button">新增记录</button>
+        </div>
+      </header>
+
+      <section class="kpi-grid" aria-label="经营指标">
+        <article class="metric">
+          <span>累计签约额</span>
+          <strong id="metric-contract">0</strong>
+          <small>合同台账</small>
+        </article>
+        <article class="metric">
+          <span>累计回款额</span>
+          <strong id="metric-payment">0</strong>
+          <small>回款明细</small>
+        </article>
+        <article class="metric">
+          <span>储备项目额</span>
+          <strong id="metric-pipeline">0</strong>
+          <small>未转合同</small>
+        </article>
+        <article class="metric warning">
+          <span>应收未收</span>
+          <strong id="metric-receivable">0</strong>
+          <small>回款提醒</small>
+        </article>
+      </section>
+
+      <section class="work-grid">
+        <div class="main-column">
+          <section class="panel board-panel" id="dashboard-panel">
+            <div class="panel-header">
+              <div>
+                <h2>经营驾驶舱</h2>
+                <p>跟踪项目漏斗、回款、交付和本周动作。</p>
+              </div>
+              <button id="refresh-btn" class="secondary-btn" type="button">刷新</button>
+            </div>
+            <div class="dashboard-grid">
+              <div class="mini-panel">
+                <h3>项目漏斗</h3>
+                <div id="funnel-bars" class="funnel-bars"></div>
+              </div>
+              <div class="mini-panel">
+                <h3>回款提醒</h3>
+                <ul id="receivable-alerts" class="alert-list"></ul>
+              </div>
+              <div class="mini-panel">
+                <h3>重点事项</h3>
+                <ul id="todo-list" class="alert-list"></ul>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel ledger-panel">
+            <div class="panel-header">
+              <div>
+                <h2 id="ledger-title">公司项目汇总</h2>
+                <p id="ledger-description">查看和维护当前视图下的核心台账。</p>
+              </div>
+              <div class="segmented" id="resource-tabs"></div>
+            </div>
+            <div class="toolbar">
+              <input id="search-box" type="search" placeholder="搜索客户、项目、合同编号">
+              <button id="convert-btn" class="secondary-btn" type="button">转合同</button>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead id="ledger-head"></thead>
+                <tbody id="ledger-body"></tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+
+        <aside class="right-rail">
+          <section class="panel form-panel">
+            <div class="panel-header">
+              <div>
+                <h2 id="form-title">快速录入</h2>
+                <p id="form-hint">选择模块后录入必要字段。</p>
+              </div>
+            </div>
+            <form id="record-form"></form>
+          </section>
+
+          <section class="panel report-panel">
+            <div class="panel-header">
+              <div>
+                <h2>汇报草稿</h2>
+                <p>自动汇总日报和台账变化。</p>
+              </div>
+            </div>
+            <div class="report-actions">
+              <button id="weekly-btn" class="primary-btn" type="button">生成周报</button>
+              <button id="monthly-btn" class="secondary-btn" type="button">生成月复盘</button>
+            </div>
+            <pre id="report-output">尚未生成草稿。</pre>
+          </section>
+        </aside>
+      </section>
+    </main>
+  </div>
+  <script src="/static/app.js"></script>
+</body>
+</html>
