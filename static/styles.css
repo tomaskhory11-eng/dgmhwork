@@ -26,6 +26,12 @@ body {
   font-size: 14px;
 }
 
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
 button,
 input,
 select,
@@ -102,6 +108,7 @@ button {
   padding: 11px 12px;
   border-radius: 8px;
   font-weight: 600;
+  white-space: nowrap;
 }
 
 .nav-item:hover,
@@ -132,6 +139,7 @@ button {
 
 .workspace {
   min-width: 0;
+  width: 100%;
   padding: 18px;
 }
 
@@ -278,6 +286,7 @@ textarea:focus {
   border: 1px solid var(--line);
   border-radius: 8px;
   box-shadow: var(--shadow);
+  min-width: 0;
 }
 
 .panel-header {
@@ -483,17 +492,25 @@ td.empty-cell {
     flex-direction: row;
     align-items: center;
     overflow-x: auto;
+    width: 100%;
+    max-width: 100vw;
   }
 
   .brand {
-    min-width: 230px;
+    flex: 0 0 212px;
+    min-width: 0;
     border-bottom: 0;
     padding-bottom: 8px;
   }
 
   .nav {
     display: flex;
-    min-width: max-content;
+    min-width: 0;
+    overflow-x: auto;
+  }
+
+  .nav-item {
+    flex: 0 0 auto;
   }
 
   .sidebar-note {
@@ -512,6 +529,15 @@ td.empty-cell {
 @media (max-width: 760px) {
   .workspace {
     padding: 12px;
+    overflow-x: hidden;
+  }
+
+  .brand {
+    flex-basis: 178px;
+  }
+
+  .brand strong {
+    font-size: 12px;
   }
 
   .topbar,
